@@ -36,6 +36,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+import silkclient.gui.BlackButton;
+import silkclient.gui.modtoggle.GuiModToggle;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 {
@@ -199,6 +201,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      */
     public void initGui()
     {
+
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         Calendar calendar = Calendar.getInstance();
@@ -226,12 +229,13 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         }
         else
         {
-            this.addSingleplayerMultiplayerButtons(j, 24);
+            this.addSingleplayerMultiplayerButtons(j, 21);
+
         }
 
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
-        this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
+//        this.buttonList.add(new BlackButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options", new Object[0])));
+//        this.buttonList.add(new BlackButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
+//        this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
 
         synchronized (this.threadLock)
         {
@@ -265,18 +269,19 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
      */
     private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_)
     {
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer", new Object[0])));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1, I18n.format("menu.multiplayer", new Object[0])));
-
-        if (Reflector.GuiModList_Constructor.exists())
-        {
-            this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 + 2, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("menu.online", new Object[0]).replace("Minecraft", "").trim()));
-            this.buttonList.add(this.modButton = new GuiButton(6, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("fml.menu.mods", new Object[0])));
-        }
-        else
-        {
-            this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
-        }
+        this.buttonList.add(new BlackButton(1, this.width / 2 - 100, p_73969_1_, 200,20, I18n.format("menu.singleplayer", new Object[0])));
+        this.buttonList.add(new BlackButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 1,200,20, I18n.format("menu.multiplayer", new Object[0])));
+        this.buttonList.add(new BlackButton(3, this.width / 2 - 100 , p_73969_1_ + p_73969_2_ * 2, 200,20,"Mod Options"));
+        this.buttonList.add(new BlackButton(4 ,this.width - 50 , 0 + 10 , 25 , 25 , "X"));
+//        if (Reflector.GuiModList_Constructor.exists())
+//        {
+//            this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 + 2, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("menu.online", new Object[0]).replace("Minecraft", "").trim()));
+//            this.buttonList.add(this.modButton = new GuiButton(6, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 98, 20, I18n.format("fml.menu.mods", new Object[0])));
+//        }
+//        else
+//        {
+//            this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online", new Object[0])));
+//        }
     }
 
     /**
@@ -303,6 +308,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         if (button.id == 0)
         {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+        }
+
+        if(button.id == 3) {
+            this.mc.displayGuiScreen(new GuiModToggle());
         }
 
         if (button.id == 5)
@@ -636,7 +645,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         GlStateManager.scale(f, f, f);
         this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
         GlStateManager.popMatrix();
-        String s = "Minecraft 1.8.9";
+        String s = "Silk Client 1.8.9";
 
         if (this.mc.isDemo())
         {

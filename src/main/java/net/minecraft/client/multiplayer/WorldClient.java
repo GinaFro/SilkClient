@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecart;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.particle.EntityFirework;
 import net.minecraft.crash.CrashReport;
@@ -21,6 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.src.Config;
+import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumParticleTypes;
@@ -390,6 +392,9 @@ public class WorldClient extends World
      */
     public CrashReportCategory addWorldInfoToCrashReport(CrashReport report)
     {
+        if(this.mc.thePlayer == null) {
+            this.mc.thePlayer = new EntityPlayerSP(this.mc , this.mc.theWorld , this.mc.getNetHandler() , new StatFileWriter());
+        }
         CrashReportCategory crashreportcategory = super.addWorldInfoToCrashReport(report);
         crashreportcategory.addCrashSectionCallable("Forced entities", new Callable<String>()
         {

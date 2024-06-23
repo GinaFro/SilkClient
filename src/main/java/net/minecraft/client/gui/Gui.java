@@ -29,10 +29,34 @@ public class Gui
         drawRect(startX, y, endX + 1, y + 1, color);
     }
 
+    public static void drawHorizontalLineP(int startX, int endX, int y, int color)
+    {
+        if (endX < startX)
+        {
+            int i = startX;
+            startX = endX;
+            endX = i;
+        }
+
+        drawRect(startX, y, endX + 1, y + 1, color);
+    }
+
     /**
      * Draw a 1 pixel wide vertical line. Args : x, y1, y2, color
      */
     protected void drawVerticalLine(int x, int startY, int endY, int color)
+    {
+        if (endY < startY)
+        {
+            int i = startY;
+            startY = endY;
+            endY = i;
+        }
+
+        drawRect(x, startY + 1, x + 1, endY, color);
+    }
+
+    public static void drawVerticalLineP(int x, int startY, int endY, int color)
     {
         if (endY < startY)
         {
@@ -119,7 +143,7 @@ public class Gui
     /**
      * Renders the specified text to the screen, center-aligned. Args : renderer, string, x, y, color
      */
-    public void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color)
+    public static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color)
     {
         fontRendererIn.drawStringWithShadow(text, (float)(x - fontRendererIn.getStringWidth(text) / 2), (float)y, color);
     }
@@ -127,7 +151,7 @@ public class Gui
     /**
      * Renders the specified text to the screen. Args : renderer, string, x, y, color
      */
-    public void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color)
+    public static void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color)
     {
         fontRendererIn.drawStringWithShadow(text, (float)x, (float)y, color);
     }
@@ -180,6 +204,8 @@ public class Gui
         worldrenderer.func_181662_b((double)(xCoord + 0), (double)(yCoord + 0), (double)this.zLevel).func_181673_a((double)textureSprite.getMinU(), (double)textureSprite.getMinV()).func_181675_d();
         tessellator.draw();
     }
+
+
 
     /**
      * Draws a textured rectangle at z = 0. Args: x, y, u, v, width, height, textureWidth, textureHeight

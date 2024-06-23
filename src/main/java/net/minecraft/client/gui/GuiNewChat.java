@@ -11,6 +11,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import silkclient.events.impl.ClientChatEvent;
 
 public class GuiNewChat extends Gui
 {
@@ -133,12 +134,20 @@ public class GuiNewChat extends Gui
      */
     public void printChatMessageWithOptionalDeletion(IChatComponent p_146234_1_, int p_146234_2_)
     {
-        this.setChatLine(p_146234_1_, p_146234_2_, this.mc.ingameGUI.getUpdateCounter(), false);
-        logger.info("[CHAT] " + p_146234_1_.getUnformattedText());
+        ClientChatEvent e = new ClientChatEvent(p_146234_1_.getUnformattedText());
+        e.call();
+        if(e.isCancelled()) {
+            logger.info("[CHAT] " + "Event Cancelled");
+            return;
+        }else {
+            this.setChatLine(p_146234_1_, p_146234_2_, this.mc.ingameGUI.getUpdateCounter(), false);
+            logger.info("[CHAT] " + p_146234_1_.getUnformattedText());
+        }
     }
 
     private void setChatLine(IChatComponent p_146237_1_, int p_146237_2_, int p_146237_3_, boolean p_146237_4_)
     {
+
         if (p_146237_2_ != 0)
         {
             this.deleteChatLine(p_146237_2_);

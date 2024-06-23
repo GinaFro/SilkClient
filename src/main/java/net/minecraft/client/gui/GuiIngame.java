@@ -43,6 +43,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 import net.optifine.CustomColors;
+import silkclient.events.impl.RenderEvent;
+import silkclient.mods.impl.crosshair.ModCustomCrosshair;
 
 public class GuiIngame extends Gui
 {
@@ -161,9 +163,9 @@ public class GuiIngame extends Gui
 
         if (this.showCrosshair())
         {
-            GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
-            GlStateManager.enableAlpha();
-            this.drawTexturedModalRect(i / 2 - 7, j / 2 - 7, 0, 0, 16, 16);
+                GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
+                GlStateManager.enableAlpha();
+                this.drawTexturedModalRect(i / 2 - 7, j / 2 - 7, 0, 0, 16, 16);
         }
 
         GlStateManager.enableAlpha();
@@ -307,32 +309,21 @@ public class GuiIngame extends Gui
         ScoreObjective scoreobjective = null;
         ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(this.mc.thePlayer.getCommandSenderName());
 
-        if (scoreplayerteam != null)
-        {
-            int i1 = scoreplayerteam.getChatFormat().getColorIndex();
-
-            if (i1 >= 0)
-            {
-                scoreobjective = scoreboard.getObjectiveInDisplaySlot(3 + i1);
-            }
-        }
 
         ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
-
-        if (scoreobjective1 != null)
-        {
-            this.renderScoreboard(scoreobjective1, scaledresolution);
-        }
 
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.disableAlpha();
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.0F, (float)(j - 48), 0.0F);
+
         this.mc.mcProfiler.startSection("chat");
         this.persistantChatGUI.drawChat(this.updateCounter);
         this.mc.mcProfiler.endSection();
+
         GlStateManager.popMatrix();
+
         scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
 
         if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() > 1 || scoreobjective1 != null))
@@ -344,6 +335,8 @@ public class GuiIngame extends Gui
         {
             this.overlayPlayerList.updatePlayerList(false);
         }
+
+        new RenderEvent().call();
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();

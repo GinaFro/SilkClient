@@ -177,6 +177,10 @@ public class GameSettings
     public boolean hideGUI;
     public int thirdPersonView;
 
+    public KeyBinding CLIENT_MOD_POSITION = new KeyBinding("Mod Positioning" , Keyboard.KEY_J , "Silk Client");
+    public KeyBinding CLIENT_MENU = new KeyBinding("Client Menu" , Keyboard.KEY_RSHIFT , "Silk Client");
+    public KeyBinding CLIENT_CAPE_SWITCHER = new KeyBinding("Cape Switcher" , Keyboard.KEY_L , "Silk Client");
+
     /** true if debug info should be displayed instead of version */
     public boolean showDebugInfo;
     public boolean showDebugProfilerChart;
@@ -253,7 +257,7 @@ public class GameSettings
     public int ofDynamicLights = 3;
     public boolean ofCustomEntityModels = true;
     public boolean ofCustomGuis = true;
-    public boolean ofShowGlErrors = true;
+    public boolean ofShowGlErrors = false;
     public int ofScreenshotSize = 1;
     public int ofAnimatedWater = 0;
     public int ofAnimatedLava = 0;
@@ -327,6 +331,13 @@ public class GameSettings
         this.renderDistanceChunks = 8;
         this.loadOptions();
         Config.initGameSettings(this);
+        loadClientKeybinds();
+    }
+
+    private void loadClientKeybinds() {
+        this.keyBindings = (KeyBinding[])(ArrayUtils.add(this.keyBindings ,CLIENT_MOD_POSITION ));
+        this.keyBindings = (KeyBinding[])(ArrayUtils.add(this.keyBindings ,CLIENT_MENU ));
+        this.keyBindings = (KeyBinding[])(ArrayUtils.add(this.keyBindings ,CLIENT_CAPE_SWITCHER ));
     }
 
     public GameSettings()

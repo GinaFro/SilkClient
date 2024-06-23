@@ -1884,14 +1884,13 @@ public class Shaders
 
         if (i != 0 && GlErrors.isEnabled(i))
         {
-            String s = Config.getGlErrorString(i);
             String s1 = getErrorInfo(i, location);
-            String s2 = String.format("OpenGL error: %s (%s)%s, at: %s", new Object[] {Integer.valueOf(i), s, s1, location});
+            String s2 = String.format("OpenGL error: %s (%s)%s, at: %s", new Object[] {Integer.valueOf(i), "", s1, location});
             SMCLog.severe(s2);
 
             if (Config.isShowGlErrors() && TimedEvent.isActive("ShowGlErrorShaders", 10000L))
             {
-                String s3 = I18n.format("of.message.openglError", new Object[] {Integer.valueOf(i), s});
+                String s3 = I18n.format("of.message.openglError", new Object[] {Integer.valueOf(i), ""});
                 printChat(s3);
             }
         }

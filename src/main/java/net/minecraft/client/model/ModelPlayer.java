@@ -1,7 +1,10 @@
 package net.minecraft.client.model;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import silkclient.cosmetics.CosmeticManager;
+import silkclient.cosmetics.CosmeticsHandler;
 
 public class ModelPlayer extends ModelBiped
 {
@@ -69,13 +72,11 @@ public class ModelPlayer extends ModelBiped
     /**
      * Sets the models various rotation angles then renders the model.
      */
-    public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale)
-    {
+    public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale) {
         super.render(entityIn, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale);
         GlStateManager.pushMatrix();
 
-        if (this.isChild)
-        {
+        if (this.isChild) {
             float f = 2.0F;
             GlStateManager.scale(1.0F / f, 1.0F / f, 1.0F / f);
             GlStateManager.translate(0.0F, 24.0F * scale, 0.0F);
@@ -84,11 +85,8 @@ public class ModelPlayer extends ModelBiped
             this.bipedLeftArmwear.render(scale);
             this.bipedRightArmwear.render(scale);
             this.bipedBodyWear.render(scale);
-        }
-        else
-        {
-            if (entityIn.isSneaking())
-            {
+        } else {
+            if (entityIn.isSneaking()) {
                 GlStateManager.translate(0.0F, 0.2F, 0.0F);
             }
 
@@ -97,6 +95,17 @@ public class ModelPlayer extends ModelBiped
             this.bipedLeftArmwear.render(scale);
             this.bipedRightArmwear.render(scale);
             this.bipedBodyWear.render(scale);
+
+
+            if (entityIn.getDisplayName().equals(Minecraft.getMinecraft().thePlayer.getDisplayName())) {
+                for (CosmeticsHandler handler : CosmeticManager.cosmetics) {
+                    if (handler.getType() == CosmeticsHandler.CosmeticsType.HAT) {
+                        handler.render(entityIn, this.bipedHead);
+                    } else if (handler.getType() == CosmeticsHandler.CosmeticsType.BODY) {
+                        handler.render(entityIn, this.bipedBody);
+                    }
+                }
+            }
         }
 
         GlStateManager.popMatrix();

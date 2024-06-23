@@ -9,6 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import silkclient.ServerDataFeatured;
+
 
 public class ServerList
 {
@@ -33,6 +35,7 @@ public class ServerList
         try
         {
             this.servers.clear();
+            loadFeaturedServers();
             NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
 
             if (nbttagcompound == null)
@@ -53,6 +56,20 @@ public class ServerList
         }
     }
 
+    private void loadFeaturedServers() {
+        this.addServerData(new ServerDataFeatured("Fakepixel Network" , "mc.fakepixel.fun"));
+    }
+
+    public int getFeaturedServerCount() {
+        int count = 0;
+        for(ServerData sd : servers) {
+            if(sd instanceof ServerDataFeatured) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     /**
      * Runs getNBTCompound on each ServerData instance, puts everything into a "servers" NBT list and writes it to
      * servers.dat.
@@ -65,7 +82,9 @@ public class ServerList
 
             for (ServerData serverdata : this.servers)
             {
-                nbttaglist.appendTag(serverdata.getNBTCompound());
+                if(!(serverdata instanceof ServerDataFeatured)) {
+                    nbttaglist.appendTag(serverdata.getNBTCompound());
+                }
             }
 
             NBTTagCompound nbttagcompound = new NBTTagCompound();

@@ -16,6 +16,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -56,6 +57,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.src.Config;
+import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -94,6 +96,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
+import silkclient.mods.ModInstances;
 
 public class EntityRenderer implements IResourceManagerReloadListener
 {
@@ -910,7 +913,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
         {
             this.setupViewBobbing(partialTicks);
         }
-
+        if(this.mc.thePlayer == null) {
+            this.mc.thePlayer = new EntityPlayerSP(this.mc , this.mc.theWorld , this.mc.getNetHandler() , new StatFileWriter());
+        }
         float f1 = this.mc.thePlayer.prevTimeInPortal + (this.mc.thePlayer.timeInPortal - this.mc.thePlayer.prevTimeInPortal) * partialTicks;
 
         if (f1 > 0.0F)
@@ -1186,7 +1191,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                         f10 = 1.0F;
                     }
 
-                    float f16 = this.mc.gameSettings.gammaSetting;
+                    float f16 =  ModInstances.getModFullbright().isEnabled() ? 10 : this.mc.gameSettings.gammaSetting;
                     float f17 = 1.0F - f8;
                     float f13 = 1.0F - f9;
                     float f14 = 1.0F - f10;
@@ -1324,6 +1329,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
             if (this.mc.theWorld != null)
             {
                 this.mc.mcProfiler.startSection("level");
+                if(this.mc.thePlayer == null) {
+                    this.mc.thePlayer = new EntityPlayerSP(this.mc , this.mc.theWorld , this.mc.getNetHandler() , new StatFileWriter());
+                }
                 int j = Math.min(Minecraft.getDebugFPS(), i2);
                 j = Math.max(j, 60);
                 long k = System.nanoTime() - p_181560_2_;
@@ -1531,6 +1539,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
             anaglyphField = 1;
             GlStateManager.colorMask(true, false, false, false);
             this.renderWorldPass(1, partialTicks, finishTimeNano);
+            if(this.mc.thePlayer == null) {
+                this.mc.thePlayer = new EntityPlayerSP(this.mc , this.mc.theWorld , this.mc.getNetHandler() , new StatFileWriter());
+            }
             GlStateManager.colorMask(true, true, true, false);
         }
         else
@@ -1570,6 +1581,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (flag)
         {
+            if(this.mc.thePlayer == null) {
+                this.mc.thePlayer = new EntityPlayerSP(this.mc , this.mc.theWorld , this.mc.getNetHandler() , new StatFileWriter());
+            }
             Shaders.clearRenderBuffer();
         }
 

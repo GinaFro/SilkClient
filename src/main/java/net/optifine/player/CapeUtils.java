@@ -13,14 +13,29 @@ import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
+import silkclient.cosmetics.CapeController;
+import silkclient.events.EventTarget;
+import silkclient.events.impl.ClientTickEvent;
+import silkclient.mods.ModInstances;
+import silkclient.mods.impl.ModCape;
 
 public class CapeUtils
 {
+
+
+
+
     private static final Pattern PATTERN_USERNAME = Pattern.compile("[a-zA-Z0-9_]+");
 
     public static void downloadCape(AbstractClientPlayer player)
     {
         String s = player.getNameClear();
+
+        if(s != null && !s.isEmpty()) {
+            if(CapeController.getCurrentCape().getResource() != null && ModInstances.getModCape().isEnabled()) {
+                player.setLocationOfCape(CapeController.getCurrentCape().getResource());
+            }
+        }
 
         if (s != null && !s.isEmpty() && !s.contains("\u0000") && PATTERN_USERNAME.matcher(s).matches())
         {

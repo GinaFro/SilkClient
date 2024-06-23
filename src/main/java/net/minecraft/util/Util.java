@@ -1,11 +1,31 @@
 package net.minecraft.util;
 
+import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+
+import com.ibm.icu.impl.coll.Collation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import org.apache.logging.log4j.Logger;
 
 public class Util
 {
+
+    public static boolean isInDungeons() {
+        Collection<NetworkPlayerInfo> players = Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap();
+        for(NetworkPlayerInfo player : players) {
+            if (player == null || player.getDisplayName() == null) continue;
+            String text = player.getDisplayName().getUnformattedText();
+            if(text.contains("Dungeon")) {
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return false;
+    }
+
     public static Util.EnumOS getOSType()
     {
         String s = System.getProperty("os.name").toLowerCase();

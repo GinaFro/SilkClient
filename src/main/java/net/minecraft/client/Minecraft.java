@@ -184,6 +184,13 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
+import silkclient.Client;
+import silkclient.events.impl.ClientTickEvent;
+import silkclient.events.impl.WorldChange;
+import silkclient.gui.SplashProgress;
+import silkclient.mods.ModInstances;
+import silkclient.mods.impl.Motionblur;
+import silkclient.mods.impl.toggless.SilkClientMovementInput;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
@@ -216,7 +223,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public int displayWidth;
     public int displayHeight;
     private boolean field_181541_X = false;
-    private Timer timer = new Timer(20.0F);
+    public Timer timer = new Timer(20.0F);
 
     /** Instance of PlayerUsageSnooper. */
     private PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("client", this, MinecraftServer.getCurrentTimeMillis());
@@ -229,7 +236,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private Entity renderViewEntity;
     public Entity pointedEntity;
     public EffectRenderer effectRenderer;
-    private final Session session;
+    public Session session;
     private boolean isGamePaused;
 
     /** The font renderer used for displaying and measuring text */
@@ -432,6 +439,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             }
             catch (MinecraftError var12)
             {
+
                 break;
             }
             catch (ReportedException reportedexception)
@@ -464,6 +472,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     private void startGame() throws LWJGLException, IOException
     {
+        Client.getInstance().init();
         this.gameSettings = new GameSettings(this, this.mcDataDir);
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
         this.startTimerHackThread();
@@ -475,6 +484,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
 
         logger.info("LWJGL Version: " + Sys.getVersion());
+        SplashProgress.setProgress(2 , "Initialising Display");
         this.setWindowIcon();
         this.setInitialDisplayMode();
         this.createDisplay();
@@ -482,6 +492,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.framebufferMc = new Framebuffer(this.displayWidth, this.displayHeight, true);
         this.framebufferMc.setFramebufferColor(0.0F, 0.0F, 0.0F, 0.0F);
         this.registerMetadataSerializers();
+        SplashProgress.setProgress(3 , "Initialising Resources");
         this.mcResourcePackRepository = new ResourcePackRepository(this.fileResourcepacks, new File(this.mcDataDir, "server-resource-packs"), this.mcDefaultResourcePack, this.metadataSerializer_, this.gameSettings);
         this.mcResourceManager = new SimpleReloadableResourceManager(this.metadataSerializer_);
         this.mcLanguageManager = new LanguageManager(this.metadataSerializer_, this.gameSettings.language);
@@ -489,15 +500,17 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.refreshResources();
         this.renderEngine = new TextureManager(this.mcResourceManager);
         this.mcResourceManager.registerReloadListener(this.renderEngine);
-        this.drawSplashScreen(this.renderEngine);
+//        this.drawSplashScreen(this.renderEngine);
+        SplashProgress.drawSplash(this.renderEngine);
         this.initStream();
+        SplashProgress.setProgress(4 , "Initialising Cosmetics");
         this.skinManager = new SkinManager(this.renderEngine, new File(this.fileAssets, "skins"), this.sessionService);
         this.saveLoader = new AnvilSaveConverter(new File(this.mcDataDir, "saves"));
         this.mcSoundHandler = new SoundHandler(this.mcResourceManager, this.gameSettings);
         this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
         this.mcMusicTicker = new MusicTicker(this);
         this.fontRendererObj = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
-
+        SplashProgress.setProgress(5 , "Initialising Menus");
         if (this.gameSettings.language != null)
         {
             this.fontRendererObj.setUnicodeFlag(this.isUnicode());
@@ -536,6 +549,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         GlStateManager.matrixMode(5889);
         GlStateManager.loadIdentity();
         GlStateManager.matrixMode(5888);
+        SplashProgress.setProgress(6 , "Finishing Up!");
         this.checkGLError("Startup");
         this.textureMapBlocks = new TextureMap("textures");
         this.textureMapBlocks.setMipmapLevels(this.gameSettings.mipmapLevels);
@@ -589,6 +603,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
 
         this.renderGlobal.makeEntityOutlineShader();
+        Client.getInstance().start();
     }
 
     private void registerMetadataSerializers()
@@ -1028,6 +1043,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     {
         try
         {
+            Client.getInstance().shutdown();
             this.stream.shutdownStream();
             logger.info("Stopping!");
 
@@ -1111,6 +1127,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.mcProfiler.startSection("display");
         GlStateManager.enableTexture2D();
 
+
         if (this.thePlayer != null && this.thePlayer.isEntityInsideOpaqueBlock())
         {
             this.gameSettings.thirdPersonView = 0;
@@ -1121,6 +1138,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         if (!this.skipRenderWorld)
         {
             this.mcProfiler.endStartSection("gameRenderer");
+
             this.entityRenderer.func_181560_a(this.timer.renderPartialTicks, i);
             this.mcProfiler.endSection();
         }
@@ -2241,6 +2259,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             this.myNetworkManager.processReceivedPackets();
         }
 
+        new ClientTickEvent().call();
+
         this.mcProfiler.endSection();
         this.systemTime = getSystemTime();
     }
@@ -2313,6 +2333,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
         networkmanager.sendPacket(new C00PacketLoginStart(this.getSession().getProfile()));
         this.myNetworkManager = networkmanager;
+        Client.getInstance().getDiscordRP().update("Playing Singleplayer" , "Playing on " + this.getIntegratedServer().getWorldName());
     }
 
     /**
@@ -2328,6 +2349,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void loadWorld(WorldClient worldClientIn, String loadingMessage)
     {
+        new WorldChange(worldClientIn).call();
         if (worldClientIn == null)
         {
             NetHandlerPlayClient nethandlerplayclient = this.getNetHandler();
@@ -2388,7 +2410,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
             this.thePlayer.preparePlayerToSpawn();
             worldClientIn.spawnEntityInWorld(this.thePlayer);
-            this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
+            this.thePlayer.movementInput = new SilkClientMovementInput(this.gameSettings);
             this.playerController.setPlayerCapabilities(this.thePlayer);
             this.renderViewEntity = this.thePlayer;
         }
@@ -2426,7 +2448,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.thePlayer.setClientBrand(s);
         this.theWorld.spawnEntityInWorld(this.thePlayer);
         this.playerController.flipPlayer(this.thePlayer);
-        this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
+        this.thePlayer.movementInput = new SilkClientMovementInput(this.gameSettings);
         this.thePlayer.setEntityId(i);
         this.playerController.setPlayerCapabilities(this.thePlayer);
         this.thePlayer.setReducedDebug(entityplayersp.hasReducedDebug());

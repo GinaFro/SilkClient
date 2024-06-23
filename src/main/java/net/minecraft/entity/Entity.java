@@ -2773,6 +2773,25 @@ public abstract class Entity implements ICommandSender
         return null;
     }
 
+    public String getName()
+    {
+        if (this.hasCustomName())
+        {
+            return this.getCustomNameTag();
+        }
+        else
+        {
+            String s = EntityList.getEntityString(this);
+
+            if (s == null)
+            {
+                s = "generic";
+            }
+
+            return StatCollector.translateToLocal("entity." + s + ".name");
+        }
+    }
+
     /**
      * Called when client receives entity's NBTTagCompound from server.
      */

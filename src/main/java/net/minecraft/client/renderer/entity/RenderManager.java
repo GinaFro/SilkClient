@@ -109,7 +109,7 @@ public class RenderManager
 {
     private Map<Class, Render> entityRenderMap = Maps.newHashMap();
     private Map<String, RenderPlayer> skinMap = Maps.newHashMap();
-    private RenderPlayer playerRenderer;
+    public RenderPlayer playerRenderer;
 
     /** Renders fonts */
     private FontRenderer textRenderer;

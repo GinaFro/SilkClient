@@ -13,6 +13,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -21,6 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import silkclient.ServerDataFeatured;
 
 public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
 {
@@ -73,6 +75,11 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
                     }
                 }
             });
+        }
+
+        boolean isFeaturedServer = (field_148301_e instanceof ServerDataFeatured);
+        if(isFeaturedServer) {
+            drawImg(x , y, false , ServerDataFeatured.STAR_ICON);
         }
 
         boolean flag = this.field_148301_e.version > 47;
@@ -182,50 +189,45 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
             this.field_148303_c.setHoveringText(s);
         }
 
-        if (this.mc.gameSettings.touchscreen || isSelected)
-        {
+        if (this.mc.gameSettings.touchscreen || isSelected) {
             this.mc.getTextureManager().bindTexture(SERVER_SELECTION_BUTTONS);
             Gui.drawRect(x, y, x + 32, y + 32, -1601138544);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             int k1 = mouseX - x;
             int l1 = mouseY - y;
 
-            if (this.func_178013_b())
-            {
-                if (k1 < 32 && k1 > 16)
-                {
+            if (this.func_178013_b()) {
+                if (k1 < 32 && k1 > 16) {
                     Gui.drawModalRectWithCustomSizedTexture(x, y, 0.0F, 32.0F, 32, 32, 256.0F, 256.0F);
-                }
-                else
-                {
+                } else {
                     Gui.drawModalRectWithCustomSizedTexture(x, y, 0.0F, 0.0F, 32, 32, 256.0F, 256.0F);
                 }
             }
+            if (!isFeaturedServer) {
+                if (this.field_148303_c.func_175392_a(this, slotIndex)) {
+                    if (k1 < 16 && l1 < 16) {
+                        Gui.drawModalRectWithCustomSizedTexture(x, y, 96.0F, 32.0F, 32, 32, 256.0F, 256.0F);
+                    } else {
+                        Gui.drawModalRectWithCustomSizedTexture(x, y, 96.0F, 0.0F, 32, 32, 256.0F, 256.0F);
+                    }
+                }
 
-            if (this.field_148303_c.func_175392_a(this, slotIndex))
-            {
-                if (k1 < 16 && l1 < 16)
-                {
-                    Gui.drawModalRectWithCustomSizedTexture(x, y, 96.0F, 32.0F, 32, 32, 256.0F, 256.0F);
-                }
-                else
-                {
-                    Gui.drawModalRectWithCustomSizedTexture(x, y, 96.0F, 0.0F, 32, 32, 256.0F, 256.0F);
-                }
-            }
-
-            if (this.field_148303_c.func_175394_b(this, slotIndex))
-            {
-                if (k1 < 16 && l1 > 16)
-                {
-                    Gui.drawModalRectWithCustomSizedTexture(x, y, 64.0F, 32.0F, 32, 32, 256.0F, 256.0F);
-                }
-                else
-                {
-                    Gui.drawModalRectWithCustomSizedTexture(x, y, 64.0F, 0.0F, 32, 32, 256.0F, 256.0F);
+                if (this.field_148303_c.func_175394_b(this, slotIndex)) {
+                    if (k1 < 16 && l1 > 16) {
+                        Gui.drawModalRectWithCustomSizedTexture(x, y, 64.0F, 32.0F, 32, 32, 256.0F, 256.0F);
+                    } else {
+                        Gui.drawModalRectWithCustomSizedTexture(x, y, 64.0F, 0.0F, 32, 32, 256.0F, 256.0F);
+                    }
                 }
             }
         }
+    }
+
+    private void drawImg(int x, int y, boolean lower, ResourceLocation texture) {
+
+        this.mc.getTextureManager().bindTexture(texture);
+        Gui.drawModalRectWithCustomSizedTexture(x - 24, lower ? y + 16 : y ,0.0F , 0.0F , 16 , 16 , 16 , 16 );
+
     }
 
     protected void func_178012_a(int p_178012_1_, int p_178012_2_, ResourceLocation p_178012_3_)
@@ -301,6 +303,10 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
                 return true;
             }
 
+            if(!(this.field_148303_c.getServerList().getServerData(slotIndex) instanceof ServerDataFeatured)) {
+
+
+
             if (p_148278_5_ < 16 && p_148278_6_ < 16 && this.field_148303_c.func_175392_a(this, slotIndex))
             {
                 this.field_148303_c.func_175391_a(this, slotIndex, GuiScreen.isShiftKeyDown());
@@ -311,6 +317,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
             {
                 this.field_148303_c.func_175393_b(this, slotIndex, GuiScreen.isShiftKeyDown());
                 return true;
+                }
             }
         }
 

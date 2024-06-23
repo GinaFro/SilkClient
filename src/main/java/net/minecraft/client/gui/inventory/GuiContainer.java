@@ -18,6 +18,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
+import silkclient.events.impl.ContainerOpenEvent;
 
 public abstract class GuiContainer extends GuiScreen
 {
@@ -47,7 +48,7 @@ public abstract class GuiContainer extends GuiScreen
     private Slot theSlot;
 
     /** Used when touchscreen is enabled. */
-    private Slot clickedSlot;
+    public Slot clickedSlot;
 
     /** Used when touchscreen is enabled. */
     private boolean isRightMouseClick;
@@ -87,6 +88,7 @@ public abstract class GuiContainer extends GuiScreen
      */
     public void initGui()
     {
+
         super.initGui();
         this.mc.thePlayer.openContainer = this.inventorySlots;
         this.guiLeft = (this.width - this.xSize) / 2;
@@ -751,6 +753,8 @@ public abstract class GuiContainer extends GuiScreen
         return false;
     }
 
+
+
     /**
      * Called from the main game loop to update the screen.
      */
@@ -758,6 +762,7 @@ public abstract class GuiContainer extends GuiScreen
     {
         super.updateScreen();
 
+        
         if (!this.mc.thePlayer.isEntityAlive() || this.mc.thePlayer.isDead)
         {
             this.mc.thePlayer.closeScreen();

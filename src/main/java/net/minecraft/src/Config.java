@@ -1514,13 +1514,12 @@ public class Config
 
         if (i != 0 && GlErrors.isEnabled(i))
         {
-            String s = getGlErrorString(i);
-            String s1 = String.format("OpenGL error: %s (%s), at: %s", new Object[] {Integer.valueOf(i), s, p_checkGlError_0_});
+            String s1 = String.format("OpenGL error: %s (%s), at: %s", new Object[] {Integer.valueOf(i), "", p_checkGlError_0_});
             error(s1);
 
             if (isShowGlErrors() && TimedEvent.isActive("ShowGlError", 10000L))
             {
-                String s2 = I18n.format("of.message.openglError", new Object[] {Integer.valueOf(i), s});
+                String s2 = I18n.format("of.message.openglError", new Object[] {Integer.valueOf(i), ""});
                 minecraft.ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(s2));
             }
         }
@@ -2476,9 +2475,6 @@ public class Config
 
             case 1281:
                 return "Invalid value";
-
-            case 1282:
-                return "Invalid operation";
 
             case 1283:
                 return "Stack overflow";

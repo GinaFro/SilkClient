@@ -17,6 +17,7 @@ import net.minecraft.world.storage.WorldInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import silkclient.Client;
 
 public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
 {
@@ -48,6 +49,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback
      */
     public void initGui()
     {
+        Client.getInstance().getDiscordRP().update("Idling" , "Singleplayer Menu");
         this.field_146628_f = I18n.format("selectWorld.title", new Object[0]);
 
         try

@@ -13,6 +13,8 @@ import net.minecraft.client.resources.I18n;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
+import silkclient.Client;
+import silkclient.ServerDataFeatured;
 
 public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
 {
@@ -49,6 +51,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
      */
     public void initGui()
     {
+        Client.getInstance().getDiscordRP().update("Idling" , "Multiplayer Menu");
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
 
@@ -416,6 +419,11 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
                 this.btnEditServer.enabled = true;
                 this.btnDeleteServer.enabled = true;
             }
+
+            if(savedServerList.getServerData(index) instanceof ServerDataFeatured) {
+                this.btnEditServer.enabled = false;
+                this.btnDeleteServer.enabled = false;
+            }
         }
     }
 
@@ -454,7 +462,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
 
     public boolean func_175392_a(ServerListEntryNormal p_175392_1_, int p_175392_2_)
     {
-        return p_175392_2_ > 0;
+        return p_175392_2_ > this.savedServerList.getFeaturedServerCount();
     }
 
     public boolean func_175394_b(ServerListEntryNormal p_175394_1_, int p_175394_2_)

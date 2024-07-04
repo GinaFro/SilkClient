@@ -327,4 +327,9 @@ public class GuiOverlayDebug extends Gui
     {
         return bytes / 1024L / 1024L;
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
 }

@@ -385,6 +385,11 @@ public class GuiPlayerTabOverlay extends Gui
         this.footer = null;
     }
 
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
+
     static class PlayerComparator implements Comparator<NetworkPlayerInfo>
     {
         private PlayerComparator()

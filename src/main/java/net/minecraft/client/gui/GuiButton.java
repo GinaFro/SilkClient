@@ -154,4 +154,9 @@ public class GuiButton extends Gui
     {
         this.width = width;
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
 }

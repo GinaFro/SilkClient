@@ -142,4 +142,9 @@ public class GuiAchievement extends Gui
         this.theAchievement = null;
         this.notificationTime = 0L;
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
 }

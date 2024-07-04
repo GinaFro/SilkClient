@@ -804,4 +804,9 @@ public class GuiTextField extends Gui
     {
         this.visible = p_146189_1_;
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
 }

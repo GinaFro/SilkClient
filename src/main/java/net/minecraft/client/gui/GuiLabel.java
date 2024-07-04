@@ -42,10 +42,10 @@ public class GuiLabel extends Gui
         this.field_146163_s = 0;
     }
 
-    public void func_175202_a(String p_175202_1_)
-    {
-        this.field_146173_k.add(I18n.format(p_175202_1_, new Object[0]));
+    public GuiLabel(FontRenderer fontRenderer, String playerName, int pI455403, int pI455404) {
+        super();
     }
+
 
     /**
      * Sets the Label to be centered
@@ -94,5 +94,13 @@ public class GuiLabel extends Gui
             this.drawVerticalLine(k, l, l + j, this.field_146166_p);
             this.drawVerticalLine(k + i, l, l + j, this.field_146165_q);
         }
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
+
+    public void func_175202_a(String s) {
     }
 }

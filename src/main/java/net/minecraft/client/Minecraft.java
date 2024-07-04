@@ -185,6 +185,7 @@ import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import silkclient.Client;
+import silkclient.UI.SilkClientMainMenu;
 import silkclient.events.impl.ClientTickEvent;
 import silkclient.events.impl.WorldChange;
 import silkclient.gui.SplashProgress;
@@ -204,6 +205,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private final File fileResourcepacks;
     private final PropertyMap twitchDetails;
     private final PropertyMap field_181038_N;
+    public FontRenderer fontRenderer;
     private ServerData currentServerData;
 
     /** The RenderEngine instance used by Minecraft */
@@ -576,11 +578,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         if (this.serverName != null)
         {
-            this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
+            this.displayGuiScreen(new GuiConnecting(new SilkClientMainMenu(), this, this.serverName, this.serverPort));
         }
         else
         {
-            this.displayGuiScreen(new GuiMainMenu());
+            this.displayGuiScreen(new SilkClientMainMenu());
         }
 
         this.renderEngine.deleteTexture(this.mojangLogo);
@@ -985,14 +987,14 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         if (guiScreenIn == null && this.theWorld == null)
         {
-            guiScreenIn = new GuiMainMenu();
+            guiScreenIn = new SilkClientMainMenu();
         }
         else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F)
         {
             guiScreenIn = new GuiGameOver();
         }
 
-        if (guiScreenIn instanceof GuiMainMenu)
+        if (guiScreenIn instanceof SilkClientMainMenu)
         {
             this.gameSettings.showDebugInfo = false;
             this.ingameGUI.getChatGUI().clearChatMessages();

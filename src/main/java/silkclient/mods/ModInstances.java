@@ -1,6 +1,7 @@
 package silkclient.mods;
 
 import silkclient.gui.hud.HUDManager;
+import silkclient.gui.hud.IRenderer;
 import silkclient.mods.impl.*;
 import silkclient.mods.impl.toggless.ModToggleSprintSneak;
 import silkclient.mods.skyblock.ModCakeTimer;
@@ -25,6 +26,8 @@ public class ModInstances {
     private static ModFullbright modFullbright;
     private static ModCape modCape;
     private static ModClock modClock;
+
+    private static ModComboCounter modComboCounter;
 
     public static void register(HUDManager api) {
         modCPSDisplay = new ModCPSDisplay();
@@ -58,6 +61,8 @@ public class ModInstances {
         api.register(modCape);
         modClock = new ModClock();
         api.register(modClock);
+        modComboCounter = new ModComboCounter();
+        api.register(modComboCounter);
     }
 
     public static ModCape getModCape() {

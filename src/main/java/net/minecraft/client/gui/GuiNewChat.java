@@ -376,4 +376,9 @@ public class GuiNewChat extends Gui
     {
         return this.getChatHeight() / 9;
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
 }

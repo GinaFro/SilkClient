@@ -1192,4 +1192,9 @@ public class GuiIngame extends Gui
     {
         this.overlayPlayerList.func_181030_a();
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
 }

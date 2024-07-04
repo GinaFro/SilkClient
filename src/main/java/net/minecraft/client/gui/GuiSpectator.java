@@ -183,4 +183,9 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient
             this.field_175271_i = new SpectatorMenu(this);
         }
     }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    }
 }

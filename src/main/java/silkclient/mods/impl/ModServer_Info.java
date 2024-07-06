@@ -6,7 +6,7 @@ import silkclient.gui.hud.ScreenPosition;
 import silkclient.mods.ModDraggable;
 import silkclient.utils.StringUtils;
 
-public class ModServerInfo extends ModDraggable {
+public class ModServer_Info extends ModDraggable {
 
     private int offsetX = 7;
     private int offsetY = 5;

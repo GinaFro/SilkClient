@@ -10,7 +10,6 @@ import silkclient.events.impl.ClientChatEvent;
 import silkclient.gui.hud.ScreenPosition;
 import silkclient.mods.ModDraggable;
 import silkclient.utils.MiscUtils;
-import silkclient.utils.ModConfig;
 import silkclient.utils.SkyblockUtils;
 
 import java.awt.*;
@@ -68,7 +67,6 @@ public class ModCakeTimer extends ModDraggable {
     @Override
     public void render(ScreenPosition pos) {
         if(cakeTime != 1.0) {
-            ModConfig.getInstance().save();
         }
         GlStateManager.scale(1,1,1);
         if(SkyblockUtils.inSkyblock()) {

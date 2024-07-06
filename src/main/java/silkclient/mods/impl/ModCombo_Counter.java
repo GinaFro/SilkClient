@@ -10,7 +10,7 @@ import silkclient.utils.StringUtils;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ModComboCounter extends ModDraggable {
+public class ModCombo_Counter extends ModDraggable {
     private int comboCount = 0;
     private int comboThreshold = 3; // adjust this value to change the combo threshold
     private long lastActionTime = 0;
@@ -18,7 +18,7 @@ public class ModComboCounter extends ModDraggable {
     private TimerTask timerTask;
     private FontRenderer font;
 
-    public ModComboCounter() {
+    public ModCombo_Counter() {
         font = Minecraft.getMinecraft().fontRendererObj;
     }
 

@@ -26,8 +26,8 @@ public class SilkClientMainMenu extends GuiScreen {
         this.buttonList.add(new TransparentButton(1, centerX - 100, this.height / 2 - 50, "Singleplayer"));
         this.buttonList.add(new TransparentButton(2, centerX - 100, this.height / 2 - 25, "Multiplayer"));
         this.buttonList.add(new TransparentButton(3, centerX - 100, this.height / 2, "Options"));
-        this.buttonList.add(new TransparentButton(4, centerX, this.height / 2 + 25, 100, 20, "Quit Game"));
-        this.buttonList.add(new TransparentButton(5, centerX - 100, this.height / 2 + 25, 100, 20, "Mod Options"));
+        this.buttonList.add(new TransparentButton(4, centerX + 2, this.height / 2 + 25, 100, 20, "Quit Game"));
+        this.buttonList.add(new TransparentButton(5, centerX - 100 - 2, this.height / 2 + 25, 100, 20, "Mod Options"));
 
         super.initGui();
     }

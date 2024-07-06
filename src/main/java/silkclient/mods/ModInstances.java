@@ -1,55 +1,54 @@
 package silkclient.mods;
 
 import silkclient.gui.hud.HUDManager;
-import silkclient.gui.hud.IRenderer;
 import silkclient.mods.impl.*;
-import silkclient.mods.impl.toggless.ModToggleSprintSneak;
+import silkclient.mods.impl.toggless.ModToggle_Sprint_Sneak;
 import silkclient.mods.skyblock.ModCakeTimer;
 
 public class ModInstances {
 
-    private static ModCPSDisplay modCPSDisplay;
-    private static ModFPSDisplay modFpsDisplay;
-    private static ModArmorStatus modArmorStatus;
+    private static ModCPS_Display modCPSDisplay;
+    private static ModFPS_Display modFpsDisplay;
+    private static ModArmor_Status modArmorStatus;
     private static ModKeystrokes modKeystrokes;
-    private static ModToggleSprintSneak modToggleSprintSneak;
-    private static ModPotionStatus modPotionStatus;
+    private static ModToggle_Sprint_Sneak modToggleSprintSneak;
+    private static ModPotion_Status modPotionStatus;
     private static ModCustomChatTest modCustomChatTest;
     private static ModCoordinates modCoordinates;
     private static Motionblur motionblur;
-    private static ModItemPhysics itemPhysics;
-    private static ModPingDisplay modPingDisplay;
-    private static ModServerInfo modServerInfo;
+    private static ModItem_Physics itemPhysics;
+    private static ModPing_Display modPingDisplay;
+    private static ModServer_Info modServerInfo;
     private static ModScoreboard modScoreboard;
     private static ModCakeTimer ModCakeTimer;
     private static Momentum momentum;
     private static ModFullbright modFullbright;
     private static ModCape modCape;
     private static ModClock modClock;
-
-    private static ModComboCounter modComboCounter;
+    private static ModCombo_Counter modComboCounter;
+    private static ModPlayer_Hud modTargetHud;
 
     public static void register(HUDManager api) {
-        modCPSDisplay = new ModCPSDisplay();
+        modCPSDisplay = new ModCPS_Display();
         api.register(modCPSDisplay);
-        modFpsDisplay = new ModFPSDisplay();
+        modFpsDisplay = new ModFPS_Display();
         api.register(modFpsDisplay);
-        modArmorStatus = new ModArmorStatus();
+        modArmorStatus = new ModArmor_Status();
         api.register(modArmorStatus);
         modKeystrokes = new ModKeystrokes();
         api.register(modKeystrokes);
-        modToggleSprintSneak = new ModToggleSprintSneak();
+        modToggleSprintSneak = new ModToggle_Sprint_Sneak();
         api.register(modToggleSprintSneak);
-        modPotionStatus = new ModPotionStatus();
+        modPotionStatus = new ModPotion_Status();
         api.register(modPotionStatus);
         modCustomChatTest = new ModCustomChatTest();
         modCoordinates = new ModCoordinates();
         api.register(modCoordinates);
-        itemPhysics = new ModItemPhysics();
+        itemPhysics = new ModItem_Physics();
         api.register(itemPhysics);
-        modPingDisplay = new ModPingDisplay();
+        modPingDisplay = new ModPing_Display();
         api.register(modPingDisplay);
-        modServerInfo = new ModServerInfo();
+        modServerInfo = new ModServer_Info();
         api.register(modServerInfo);
         modScoreboard = new ModScoreboard();
         api.register(modScoreboard);
@@ -61,8 +60,10 @@ public class ModInstances {
         api.register(modCape);
         modClock = new ModClock();
         api.register(modClock);
-        modComboCounter = new ModComboCounter();
+        modComboCounter = new ModCombo_Counter();
         api.register(modComboCounter);
+        modTargetHud= new ModPlayer_Hud();
+        api.register(modTargetHud);
     }
 
     public static ModCape getModCape() {
@@ -77,7 +78,7 @@ public class ModInstances {
         return modFullbright;
     }
 
-    public static ModItemPhysics getModItemPhysics() {
+    public static ModItem_Physics getModItemPhysics() {
         return itemPhysics;
     }
 
@@ -89,7 +90,7 @@ public class ModInstances {
         return modCustomChatTest;
     }
 
-    public static ModToggleSprintSneak getModToggleSprintSneak() {
+    public static ModToggle_Sprint_Sneak getModToggleSprintSneak() {
         return modToggleSprintSneak;
     }
 }

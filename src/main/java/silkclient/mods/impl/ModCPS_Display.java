@@ -8,12 +8,10 @@ import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.gui.Gui;
 import silkclient.gui.hud.ScreenPosition;
-import silkclient.mods.ModCategory;
 import silkclient.mods.ModDraggable;
-import silkclient.utils.ShapeUtils;
 import silkclient.utils.StringUtils;
 
-public class ModCPSDisplay extends ModDraggable {
+public class ModCPS_Display extends ModDraggable {
 
 
 

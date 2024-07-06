@@ -8,7 +8,7 @@ import silkclient.utils.StringUtils;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class ModTimeDisplay extends ModDraggable {
+public class ModTime_Display extends ModDraggable {
 
     private int offsetX = 7;
     private int offsetY = 5;

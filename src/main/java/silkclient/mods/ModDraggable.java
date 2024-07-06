@@ -8,7 +8,6 @@ import com.google.gson.JsonObject;
 import silkclient.FileManager;
 import silkclient.gui.hud.IRenderer;
 import silkclient.gui.hud.ScreenPosition;
-import silkclient.utils.ModConfig;
 
 public abstract class ModDraggable extends Mod implements IRenderer {
 
@@ -34,13 +33,13 @@ public abstract class ModDraggable extends Mod implements IRenderer {
 
     public void saveSettings(JsonObject settings) {
         settings.addProperty("name" , this.getClass().getSimpleName());
-        settings.addProperty("enabled" , this.isEnabled());
-        settings.addProperty("chroma" , this.isChromaOn());
+        settings.addProperty("enabled" , isEnabled);
+        settings.addProperty("chroma" , isChromaOn);
     }
 
     public void loadSettings(JsonObject settings) {
-        this.setEnabled(settings.get("enabled").getAsBoolean());
-        this.setChroma(settings.get("chroma").getAsBoolean());
+        setEnabled(settings.get("enabled").getAsBoolean());
+        setChroma(settings.get("chroma").getAsBoolean());
     }
 
     public void setChroma(boolean chromaOn) {

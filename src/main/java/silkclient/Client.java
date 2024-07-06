@@ -11,6 +11,7 @@ import silkclient.events.EventTarget;
 import silkclient.events.impl.ClientTickEvent;
 import silkclient.gui.GUIMod;
 import silkclient.gui.GUiSliderTest;
+import silkclient.gui.ModMenu.ModMenu;
 import silkclient.gui.SplashProgress;
 import silkclient.gui.cosmetic.CapeSwitcherGUI;
 import silkclient.gui.hud.HUDManager;
@@ -19,7 +20,7 @@ import silkclient.mods.ModInstances;
 import silkclient.mods.skyblock.ModCakeTimer;
 import silkclient.mods.skyblock.DungeonFloor;
 import silkclient.mods.skyblock.Test;
-import silkclient.utils.ModConfig;
+import silkclient.utils.ConfigAPI;
 import silkclient.utils.ScoreboardUtils;
 import silkclient.utils.SkyblockUtils;
 
@@ -57,6 +58,7 @@ public class Client {
         EventManager.register(new ModCakeTimer());
         EventManager.register(new Test());
         objLoader = new ObjLoader();
+        ConfigAPI.getInstance().load();
 
     }
 
@@ -64,16 +66,12 @@ public class Client {
         api = HUDManager.getInstance();
         ModInstances.register(api);
         CosmeticManager.registerCosmetics(new Bandana());
-        if(ModInstances.getModKeystrokes().settings == null) {
-            ModConfig.getInstance().save();
-        }
-        ModConfig.getInstance().load();
     }
 
 
     public  void shutdown() {
     discordRp.shutdown();
-    ModConfig.getInstance().save();
+        ConfigAPI.getInstance().save();
     }
 
     public DiscordRP getDiscordRP() {
@@ -84,7 +82,7 @@ public class Client {
     public void onTick(ClientTickEvent e) {
 
         if(Minecraft.getMinecraft().gameSettings.CLIENT_CAPE_SWITCHER.isPressed()) {
-            Minecraft.getMinecraft().displayGuiScreen(new GUiSliderTest());
+            Minecraft.getMinecraft().displayGuiScreen(new ModMenu());
         }
 
         tickAmount++;

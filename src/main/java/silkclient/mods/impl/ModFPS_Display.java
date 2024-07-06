@@ -2,11 +2,10 @@ package silkclient.mods.impl;
 
 import net.minecraft.client.gui.Gui;
 import silkclient.gui.hud.ScreenPosition;
-import silkclient.mods.ModCategory;
 import silkclient.mods.ModDraggable;
 import silkclient.utils.StringUtils;
 
-public class ModFPSDisplay extends ModDraggable {
+public class ModFPS_Display extends ModDraggable {
 
 
 

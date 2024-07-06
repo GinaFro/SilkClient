@@ -3,7 +3,7 @@ package silkclient.mods.impl;
 import silkclient.gui.hud.ScreenPosition;
 import silkclient.mods.ModDraggable;
 
-public class ModItemPhysics extends ModDraggable {
+public class ModItem_Physics extends ModDraggable {
 
 
     @Override

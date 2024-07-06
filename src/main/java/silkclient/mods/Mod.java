@@ -12,7 +12,7 @@ import java.io.File;
 public class Mod {
 
 
-    private boolean isEnabled = true;
+    public boolean isEnabled = true;
 
     protected final Minecraft mc;
     protected final FontRenderer font;

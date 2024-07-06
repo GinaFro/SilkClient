@@ -3,21 +3,17 @@ package silkclient.mods.impl;
 import java.util.Collection;
 
 import net.minecraft.client.renderer.*;
-import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import silkclient.gui.hud.ScreenPosition;
-import silkclient.mods.ModCategory;
 import silkclient.mods.ModDraggable;
 
-public class ModPotionStatus extends ModDraggable {
+public class ModPotion_Status extends ModDraggable {
 
     private ScreenPosition pos = ScreenPosition.fromRelativePosition(0.5, 0.5);
     protected FontRenderer fontRendererObj;

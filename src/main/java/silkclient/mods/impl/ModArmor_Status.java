@@ -6,13 +6,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import silkclient.gui.hud.ScreenPosition;
-import silkclient.mods.ModCategory;
 import silkclient.mods.ModDraggable;
 import silkclient.utils.StringUtils;
 
 import java.awt.*;
 
-public class ModArmorStatus extends ModDraggable {
+public class ModArmor_Status extends ModDraggable {
 
 
     @Override

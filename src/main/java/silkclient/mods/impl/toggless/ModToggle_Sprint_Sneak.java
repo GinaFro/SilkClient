@@ -1,12 +1,10 @@
 package silkclient.mods.impl.toggless;
 
-import com.google.gson.JsonObject;
 import silkclient.gui.hud.ScreenPosition;
-import silkclient.mods.ModCategory;
 import silkclient.mods.ModDraggable;
 import silkclient.utils.StringUtils;
 
-public class ModToggleSprintSneak extends ModDraggable {
+public class ModToggle_Sprint_Sneak extends ModDraggable {
 
 
     public boolean flyBoost = true;
